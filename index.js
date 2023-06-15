@@ -109,7 +109,7 @@ app.get("/documents", async (req, res) => {
     await cursor.forEach((document) => {
       documents.push({
         // document
-        key: document.a,
+        key: document.Name,
         value: document.value,
       });
     });
