@@ -61,9 +61,9 @@ app.get("/create", async (req, res) => {
     const collection = await db.collection("firstCollection");
     const document = {
       // _key: "secondDocument",
-      a: "baz",
-      b: "qux",
-      c: Date(),
+      Name: "baz",
+      Age: 22
+     
     };
 
     await collection.save(document);
