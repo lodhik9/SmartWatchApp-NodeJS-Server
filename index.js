@@ -114,7 +114,7 @@ app.get("/documents", async (req, res) => {
       });
     });
 
-    res.send(`Collections in ArangoDB: ${JSON.stringify(documents)}`);
+    res.send(`${JSON.stringify(documents)}`);
   } catch (error) {
     console.error("Error:", error);
     res.status(500).send("Internal Server Error");
