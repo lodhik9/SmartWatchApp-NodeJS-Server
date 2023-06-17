@@ -26,13 +26,6 @@ db.version()
   .then((version) => console.log("Connected to ArangoDB version:", version))
   .catch((error) => console.error("Failed to connect to ArangoDB:", error));
 
-app.get("/", async (req, res, next) => {
-  return res.status(200).json({
-    title: "Express Testing",
-    message: "The app is working properly!",
-  });
-});
-
 app.get("/get", async (req, res) => {
   try {
     // Perform ArangoDB operations using the db object
@@ -44,12 +37,12 @@ app.get("/get", async (req, res) => {
     await cursor.forEach((document) => {
       documents.push({
         // document
-        key: document.Name,
+        key: document._key,
         value: document.value,
       });
     });
 
-    res.send(`Collections in ArangoDB: ${JSON.stringify(documents)}`);
+    res.send(`${JSON.stringify(documents)}`);
   } catch (error) {
     console.error("Error:", error);
     res.status(500).send("Internal Server Error");
@@ -60,9 +53,9 @@ app.get("/create", async (req, res) => {
   try {
     const collection = await db.collection("firstCollection");
     const document = {
-      // _key: "secondDocument",
-      Name: "baz",
-      Age: 22
+      // _key: "key",
+      ProcessStep: "Step 5",
+      MeasuredValue: "22"
      
     };
 
@@ -120,11 +113,6 @@ app.get("/documents", async (req, res) => {
     res.status(500).send("Internal Server Error");
   }
 });
-
-// Routes
-// app.use("/home", home);
-
-//  app.use("/home", home(db));
 
 // Start the server
 app.listen(port, () => {
