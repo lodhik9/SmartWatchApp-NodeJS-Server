@@ -1,3 +1,7 @@
+# Purpose of Backend Server with Node.js
+
+In order to have API endpoints for our front-end of the Smart Watch App, we will develop this server. This server will interact with our ArangoDB database and it will give use the access to database for CRUD.
+
 # Setting up a Backend Server with Node.js and Express.js
 
 To set up a backend server using JavaScript and the Node.js runtime with the Express.js framework, you can follow these steps:
@@ -37,7 +41,9 @@ app.get('/', (req, res) => {
 
 
 8. **Start the server:**  Add the following code at the end of your server.js file to start the server and listen on a specific port:
+
 const port = 3000; // Replace with your desired port number
+
 ```javascript
 app.listen(port, () => {
   console.log(`Server started on port ${port}`);
@@ -45,6 +51,7 @@ app.listen(port, () => {
 ```
 
 9. **Run the backend server:**  In your terminal or command prompt, navigate to your project directory and run the following command to start your backend server:
+
 node server.js
 
 
