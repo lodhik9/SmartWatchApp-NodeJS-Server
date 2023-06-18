@@ -54,5 +54,9 @@ app.listen(port, () => {
 
 node server.js
 
+# Documentation of the Code:
+
+Go to the doc folder of this project and run the index.html in the web browser.
+
 
 
