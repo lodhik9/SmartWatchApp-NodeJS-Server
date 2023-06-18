@@ -1,0 +1,84 @@
+<!DOCTYPE html><html lang="en"><head><title>index</title></head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"><meta name="groc-relative-root" content=""><meta name="groc-document-path" content="index"><meta name="groc-project-path" content="index.js"><link rel="stylesheet" type="text/css" media="all" href="assets/style.css"><script type="text/javascript" src="assets/behavior.js"></script><body><div id="meta"><div class="file-path">index.js</div></div><div id="document"><div class="segment"><div class="comments "><div class="wrapper"><p>Import necessary packages and modules</p></div></div><div class="code"><div class="wrapper"><span class="hljs-keyword">const</span> express = <span class="hljs-built_in">require</span>(<span class="hljs-string">"express"</span>); <span class="hljs-comment">// Express framework for creating the server</span>
+<span class="hljs-keyword">const</span> home = <span class="hljs-built_in">require</span>(<span class="hljs-string">"./routes/home"</span>); <span class="hljs-comment">// Custom route module</span>
+<span class="hljs-keyword">const</span> { Database } = <span class="hljs-built_in">require</span>(<span class="hljs-string">"arangojs"</span>); <span class="hljs-comment">// ArangoDB driver for interacting with the database</span>
+
+<span class="hljs-keyword">const</span> port = <span class="hljs-number">3001</span>; <span class="hljs-comment">// Port number for the server to listen on</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>Set up middlewares and create an Express application</p></div></div><div class="code"><div class="wrapper"><span class="hljs-keyword">const</span> app = express();
+app.use(express.json()); <span class="hljs-comment">// Middleware to parse incoming JSON requests</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>Set up ArangoDB connection</p></div></div><div class="code"><div class="wrapper"><span class="hljs-keyword">const</span> db = <span class="hljs-keyword">new</span> Database({
+  url: <span class="hljs-string">"https://92ac4680fb78.arangodb.cloud:18529"</span>, <span class="hljs-comment">// ArangoDB server URL</span>
+  auth: { username: <span class="hljs-string">"root"</span>, password: <span class="hljs-string">"yMfTVSAyJhqzjII2jtwB"</span> }, <span class="hljs-comment">// Authentication credentials</span>
+  agentOptions: {
+    ca: Buffer.from(
+      <span class="hljs-string">"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSURHRENDQWdDZ0F3SUJBZ0lRWGxzQzZwU0laUlRBbmpGak1XM2R6ekFOQmdrcWhraUc5dzBCQVFzRkFEQW0KTVJFd0R3WURWUVFLRXdoQmNtRnVaMjlFUWpFUk1BOEdBMVVFQXhNSVFYSmhibWR2UkVJd0hoY05Nak13TmpFMApNVEExTURJMFdoY05Namd3TmpFeU1UQTFNREkwV2pBbU1SRXdEd1lEVlFRS0V3aEJjbUZ1WjI5RVFqRVJNQThHCkExVUVBeE1JUVhKaGJtZHZSRUl3Z2dFaU1BMEdDU3FHU0liM0RRRUJBUVVBQTRJQkR3QXdnZ0VLQW9JQkFRQ3oKMDgybGd4ZUpqcGNFbVU1WnltMmZpWS9DaWU1YkRLUG83TTlXbk5KOGxXTnlXR1NPQUFhRmlHMU1wRytTTWw2bgpzR0xDSVpOb2duRXZyVmo1T0ttZ3IvUGZtZkpTVVo2ZWUxbVgzbWhqbGhOdDhjd3ZhamhDNm9IT2lCQWRxQXptClhPSTZtV2tGVU1tWjVPUFNkd08xYTZtMkNLeHluTEhhQkRpeWFOSXpTN29YdGpZaWgzR0FxMWRnZUU5NGRhV0MKN2IvWmhsN0VsZ0c0UHp4aENJdnBzYlFsRmFVMWYrRDFhcTZteUw4Y1F6MjZ6TnVROUtSZmdCUGVZYXV1Z0NhMApLQVE1dXBFSGdweHErc2Ntam13cjFTNTRoQ2MzUGIyNG45WkJwTkxuRE9SZThpSnR0dGpJa3NTblFRbVNIZjdXCjQ4U3BUZlg4NERXd0tJUkltNmtCQWdNQkFBR2pRakJBTUE0R0ExVWREd0VCL3dRRUF3SUNwREFQQmdOVkhSTUIKQWY4RUJUQURBUUgvTUIwR0ExVWREZ1FXQkJRRURodmJSRDRsWlN0VkJ6UVdzU2dHSWNGeUx6QU5CZ2txaGtpRwo5dzBCQVFzRkFBT0NBUUVBZ1owMlh0RUN0OHRNT0xic21yTllQWGZJOWNLS3dpM0JiT2NxSDNhb2hGSWdZWkZwCmYzdkdUaEhmVWVzY092T0VYbVgrR1k5UFQ4MUpqSXNUUGhtWTlqQ3dTaE14Zm83SU1NOUpSMHFGNHQ5RE0zTWkKZ0ZqaU9JL0NFc3JhMTU3VXgyN1hRNitRaHIrSms5Y1dxdUViOU12QzNsdWt2R0VvSkFSMmNCU2tKdEZDMnFlMwptbUducDJMU2pOMDI2RFlmclNiT3cwYXhrcEpQR0F1SjgyUm42RFRBREV2RGE0OGgwUWtsT3hFOFZubEVmZi8yCmhFV0JQSzZJSW5iWnBQNk5jTzNHWjVOTG1JY1l4WTkvK0poWG1HbEM3cE5QSUFIZjdjNlVuWkEwSk52NHlBSTYKN25OR0VuU2wwb0p0Sy83cm1qMTAwdG5IYjBhNUYrbm1nMkFISmc9PQotLS0tLUVORCBDRVJUSUZJQ0FURS0tLS0tCg=="</span>,
+      <span class="hljs-string">"base64"</span>
+    ),
+  },
+});</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>Test the connection with ArangoDB server</p></div></div><div class="code"><div class="wrapper">db.version()
+  .then((version) =&gt; <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"Connected to ArangoDB version:"</span>, version))
+  .catch((error) =&gt; <span class="hljs-built_in">console</span>.error(<span class="hljs-string">"Failed to connect to ArangoDB:"</span>, error));</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>Define routes and their respective handlers</p></div></div><div class="code"><div class="wrapper">app.get(<span class="hljs-string">"/get"</span>, <span class="hljs-keyword">async</span> (req, res) =&gt; {
+  <span class="hljs-keyword">try</span> {</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>Retrieve data from ArangoDB</p></div></div><div class="code"><div class="wrapper">    <span class="hljs-keyword">const</span> collection = <span class="hljs-keyword">await</span> db.collection(<span class="hljs-string">"firstCollection"</span>);
+    <span class="hljs-keyword">const</span> cursor = <span class="hljs-keyword">await</span> collection.all();</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>Extract necessary information from the documents</p></div></div><div class="code"><div class="wrapper">    <span class="hljs-keyword">const</span> documents = [];
+    <span class="hljs-keyword">await</span> cursor.forEach((<span class="hljs-built_in">document</span>) =&gt; {
+      documents.push({
+        key: <span class="hljs-built_in">document</span>._key,
+        value: <span class="hljs-built_in">document</span>.value,
+      });
+    });
+
+    res.send(<span class="hljs-string">`<span class="hljs-subst">${JSON.stringify(documents)}</span>`</span>);
+  } <span class="hljs-keyword">catch</span> (error) {
+    <span class="hljs-built_in">console</span>.error(<span class="hljs-string">"Error:"</span>, error);
+    res.status(<span class="hljs-number">500</span>).send(<span class="hljs-string">"Internal Server Error"</span>);
+  }
+});
+
+app.get(<span class="hljs-string">"/create"</span>, <span class="hljs-keyword">async</span> (req, res) =&gt; {
+  <span class="hljs-keyword">try</span> {</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>Create a new document in ArangoDB collection</p></div></div><div class="code"><div class="wrapper">    <span class="hljs-keyword">const</span> collection = <span class="hljs-keyword">await</span> db.collection(<span class="hljs-string">"firstCollection"</span>);
+    <span class="hljs-keyword">const</span> <span class="hljs-built_in">document</span> = {
+      ProcessStep: <span class="hljs-string">"Step 5"</span>,
+      MeasuredValue: <span class="hljs-string">"22"</span>,
+    };
+
+    <span class="hljs-keyword">await</span> collection.save(<span class="hljs-built_in">document</span>);
+    res.send(<span class="hljs-string">"Document created successfully!"</span>);
+  } <span class="hljs-keyword">catch</span> (error) {
+    <span class="hljs-built_in">console</span>.error(<span class="hljs-string">"Error:"</span>, error);
+    res.status(<span class="hljs-number">500</span>).send(<span class="hljs-string">"Internal Server Error"</span>);
+  }
+});
+
+app.get(<span class="hljs-string">"/update"</span>, <span class="hljs-keyword">async</span> (req, res) =&gt; {
+  <span class="hljs-keyword">try</span> {</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>Update an existing document in ArangoDB collection</p></div></div><div class="code"><div class="wrapper">    <span class="hljs-keyword">const</span> collection = <span class="hljs-keyword">await</span> db.collection(<span class="hljs-string">"firstCollection"</span>);</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>8012470 is the key from ArangoDB.</p></div></div><div class="code"><div class="wrapper">    <span class="hljs-keyword">await</span> collection.update(<span class="hljs-string">"8012470"</span>, { ProcessStep: <span class="hljs-string">"Step 10"</span> });
+    res.send(<span class="hljs-string">"Document updated successfully!"</span>);
+  } <span class="hljs-keyword">catch</span> (error) {
+    <span class="hljs-built_in">console</span>.error(<span class="hljs-string">"Error:"</span>, error);
+    res.status(<span class="hljs-number">500</span>).send(<span class="hljs-string">"Internal Server Error"</span>);
+  }
+});
+
+app.get(<span class="hljs-string">"/delete"</span>, <span class="hljs-keyword">async</span> (req, res) =&gt; {
+  <span class="hljs-keyword">try</span> {</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>Delete a document from ArangoDB collection</p></div></div><div class="code"><div class="wrapper">    <span class="hljs-keyword">const</span> collection = <span class="hljs-keyword">await</span> db.collection(<span class="hljs-string">"firstCollection"</span>);
+
+    <span class="hljs-keyword">await</span> collection.remove(<span class="hljs-string">"firstDocument"</span>);
+    res.send(<span class="hljs-string">"Document deleted successfully"</span>);
+  } <span class="hljs-keyword">catch</span> (error) {
+    res.status(<span class="hljs-number">500</span>).send(<span class="hljs-string">"Internal Server Error"</span>);
+  }
+});
+
+app.get(<span class="hljs-string">"/documents"</span>, <span class="hljs-keyword">async</span> (req, res) =&gt; {
+  <span class="hljs-keyword">try</span> {</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>Retrieve all documents from ArangoDB collection</p></div></div><div class="code"><div class="wrapper">    <span class="hljs-keyword">const</span> collection = db.collection(<span class="hljs-string">"firstCollection"</span>);
+    <span class="hljs-keyword">const</span> cursor = <span class="hljs-keyword">await</span> collection.all();</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>Extract necessary information from the documents</p></div></div><div class="code"><div class="wrapper">    <span class="hljs-keyword">const</span> documents = [];
+    <span class="hljs-keyword">await</span> cursor.forEach((<span class="hljs-built_in">document</span>) =&gt; {
+      documents.push({
+        <span class="hljs-built_in">document</span>,
+      });
+    });
+
+    res.send(<span class="hljs-string">`<span class="hljs-subst">${JSON.stringify(documents)}</span>`</span>);
+  } <span class="hljs-keyword">catch</span> (error) {
+    <span class="hljs-built_in">console</span>.error(<span class="hljs-string">"Error:"</span>, error);
+    res.status(<span class="hljs-number">500</span>).send(<span class="hljs-string">"Internal Server Error"</span>);
+  }
+});</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>Start the server and listen on specified port</p></div></div><div class="code"><div class="wrapper">app.listen(port, () =&gt; {
+  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">`Server listening at http://localhost:<span class="hljs-subst">${port}</span>`</span>);
+});</div></div></div></div></body></html>

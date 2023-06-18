@@ -98,15 +98,6 @@ router.get("/documents", async (req, res) => {
 });
 
 
-// module.exports = router;
-
-// Export the router
-module.exports = (db) => {
-  // Middleware to attach the db variable to the request object
-  return (req, res, next) => {
-    req.db = db;
-    next();
-  };
-};
+module.exports = router;
 
 
