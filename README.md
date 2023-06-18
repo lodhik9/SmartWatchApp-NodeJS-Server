@@ -23,17 +23,17 @@ This command installs the Express.js package and its dependencies into your proj
 ```javascript
 const express = require('express');
 
-6. **Set up an Express.js app:**  Create an instance of the Express.js application by calling the `express() function` . This will initialize the app object that represents your backend server
+6. **Set up an Express.js app:**  Create an instance of the Express.js application by calling the `express()` function . This will initialize the app object that represents your backend server
 ```javascript
-const app = express();
-```javascript
+const app = express(); 
+```
 
 7. **Define routes and middleware:**  Use the app object to define routes and middleware for your server. Routes handle incoming requests and return responses, while middleware functions can be used for tasks like request parsing, authentication, error handling, etc. Here is an example of defining a basic route that returns a "Hello, world!" message:
 ```javascript
 app.get('/', (req, res) => {
   res.send('Hello, world!');
 });
-```javascript
+```
 
 
 8. **Start the server:**  Add the following code at the end of your server.js file to start the server and listen on a specific port:
@@ -42,7 +42,7 @@ const port = 3000; // Replace with your desired port number
 app.listen(port, () => {
   console.log(`Server started on port ${port}`);
 });
-```javascript
+```
 
 9. **Run the backend server:**  In your terminal or command prompt, navigate to your project directory and run the following command to start your backend server:
 node server.js
